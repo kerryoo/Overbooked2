@@ -10,4 +10,6 @@ public class BalanceSheet : MonoBehaviour
     public static float sprintDistance = 10f;
     public static float characterInterpolation = 10;
     public static float sprintCooldown = 1f;
+
+    public static float timePerLevel = 480f;
 }
