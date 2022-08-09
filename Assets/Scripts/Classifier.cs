@@ -20,18 +20,18 @@ public class Classifier : MonoBehaviour
 
     }
 
-    public void onApplicationCollide(Application collidedApp)
-    {
-        string applicationType = collidedApp.applicationType;
-        string applierName = collidedApp.applierName;
+    //public void onApplicationCollide(Application collidedApp)
+    //{
+    //    string applicationType = collidedApp.applicationType;
+    //    string applierName = collidedApp.applierName;
 
-        if (applicationType == "CreditCard")
-        {
-            collidedApp.transform.position = exitPoint1.transform.position;
-        }
-        else if (applicationType == "Mortgage")
-        {
-            collidedApp.transform.position = exitPoint2.transform.position;
-        }
-    }
+    //    if (applicationType == "CreditCard")
+    //    {
+    //        collidedApp.transform.position = exitPoint1.transform.position;
+    //    }
+    //    else if (applicationType == "Mortgage")
+    //    {
+    //        collidedApp.transform.position = exitPoint2.transform.position;
+    //    }
+    //}
 }
