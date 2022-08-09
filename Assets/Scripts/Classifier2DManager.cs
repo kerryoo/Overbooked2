@@ -7,7 +7,7 @@ using TMPro;
 public class Classifier2DManager : MonoBehaviour
 {
     [SerializeField] GameObject applicationPageText;
-    [SerializeField] Button prevPageButton, nextPageButton, closeButton, submitButton;
+    [SerializeField] Button prevPageButton, nextPageButton, closeButton, submitButton, deleteButton;
     [SerializeField] Toggle creditCardToggle;
     [SerializeField] List<Toggle> creditCardSubToggles;
     [SerializeField] Toggle mortgageToggle;
@@ -21,9 +21,10 @@ public class Classifier2DManager : MonoBehaviour
     void Start()
     {
         app = gameObject.AddComponent<ApplicationObject>();
-        app.pages.Add(new Page("blah blah blah"));
-        app.pages.Add(new Page("here is page 2"));
-        app.pages.Add(new Page("here is page 3"));
+        app.pages.Add(new Page("credit card app"));
+        app.pages.Add(new Page("blank page"));
+        app.pages.Add(new Page("zzz\n\n\n\n\n\n\n\ncredit score: 1000"));
+        app.pages.Add(new Page("driver's license"));
 
         pageTMP = applicationPageText.GetComponent<TextMeshProUGUI>();
         pageTMP.text = app.pages[pageIndex].text;
@@ -32,6 +33,7 @@ public class Classifier2DManager : MonoBehaviour
         nextPageButton.onClick.AddListener(TaskOnNextPageButtonClicked);
         closeButton.onClick.AddListener(TaskOnCloseButtonClicked);
         submitButton.onClick.AddListener(TaskOnSubmitButtonClicked);
+        deleteButton.onClick.AddListener(TaskOnDeleteButtonClicked);
 
         creditCardToggle.onValueChanged.AddListener(TaskOnCreditCardToggleChanged);
         for (int i=0; i<creditCardSubToggles.Count; i++)
@@ -83,15 +85,24 @@ public class Classifier2DManager : MonoBehaviour
 
     void TaskOnSubmitButtonClicked()
     {
+        gameObject.SetActive(false);
+    }
 
+    void TaskOnDeleteButtonClicked()
+    {
+        gameObject.SetActive(false);
     }
 
     void TaskOnCreditCardToggleChanged(bool value)
     {
         if (value)
         {
-            untoggleMortgage();
+            UntoggleMortgage();
+        } else
+        {
+            UntoggleCreditCard();
         }
+        UpdateSubmitButton();
     }
 
     void TaskOnCreditCardSubToggleChanged(bool value, int index)
@@ -99,16 +110,21 @@ public class Classifier2DManager : MonoBehaviour
         if (value)
         {
             creditCardToggle.isOn = true;
-            untoggleMortgage();
+            UntoggleMortgage();
         }
+        UpdateSubmitButton();
     }
 
     void TaskOnMortgageToggleChanged(bool value)
     {
         if (value)
         {
-            untoggleCreditCard();
+            UntoggleCreditCard();
+        } else
+        {
+            UntoggleMortgage();
         }
+        UpdateSubmitButton();
     }
 
     void TaskOnMortgageSubToggleChanged(bool value, int index)
@@ -116,11 +132,14 @@ public class Classifier2DManager : MonoBehaviour
         if (value)
         {
             mortgageToggle.isOn = true;
-            untoggleCreditCard();
+            UntoggleCreditCard();
         }
+        UpdateSubmitButton();
     }
 
-    void untoggleCreditCard()
+    // HELPERS
+
+    void UntoggleCreditCard()
     {
         creditCardToggle.isOn = false;
         foreach (Toggle toggle in creditCardSubToggles)
@@ -129,12 +148,32 @@ public class Classifier2DManager : MonoBehaviour
         }
     }
 
-    void untoggleMortgage()
+    void UntoggleMortgage()
     {
         mortgageToggle.isOn = false;
         foreach (Toggle toggle in mortgageSubToggles)
         {
             toggle.isOn = false;
         }
+    }
+
+    bool IsValidCreditCardApp()
+    {
+        return creditCardToggle.isOn && creditCardSubToggles.TrueForAll((toggle) => toggle.isOn);
+    }
+
+    bool IsValidMortgageApp()
+    {
+        return mortgageToggle.isOn && mortgageSubToggles.TrueForAll((toggle) => toggle.isOn);
+    }
+
+    bool IsValidApp()
+    {
+        return IsValidCreditCardApp() || IsValidMortgageApp();
+    }
+
+    void UpdateSubmitButton()
+    {
+        submitButton.interactable = IsValidApp();
     }
 }
