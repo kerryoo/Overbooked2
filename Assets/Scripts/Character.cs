@@ -6,17 +6,28 @@ public class Character : MonoBehaviour
     [SerializeField] GameObject sprintTrail;
     [SerializeField] GameObject sprintSmoke;
 
+    [SerializeField] GameObject emote1;
+    [SerializeField] GameObject emote2;
+    [SerializeField] GameObject emote3;
+    [SerializeField] GameObject emote4;
+    [SerializeField] Transform emoteSpawnPos;
+
     private float currentV = 0;
     private float currentH = 0;
     private float targetSprintTime = 0;
+    private bool isGrabbing = false;
 
     private void Update()
     {
         move();
         emote();
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             interact();
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            grab();
         }
     }
 
@@ -25,9 +36,31 @@ public class Character : MonoBehaviour
 
     }
 
+    private void grab()
+    {
+        isGrabbing = !isGrabbing;
+        animator.SetBool("isGrabbing", isGrabbing);
+
+    }
+
     private void emote()
     {
-
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Instantiate(emote1, emoteSpawnPos, false);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            Instantiate(emote2, emoteSpawnPos, false);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            Instantiate(emote3, emoteSpawnPos, false);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            Instantiate(emote4, emoteSpawnPos, false);
+        }
     }
 
     private void move()
