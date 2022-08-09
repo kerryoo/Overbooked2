@@ -4,10 +4,10 @@ using UnityEngine;
 
 public struct Page
 {
-    public string text;
+    public List<string> lines;
 
-    public Page(string text)
+    public Page(List<string> lines)
     {
-        this.text = text;
+        this.lines = lines;
     }
 }

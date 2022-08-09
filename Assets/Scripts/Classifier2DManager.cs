@@ -6,7 +6,9 @@ using TMPro;
 
 public class Classifier2DManager : MonoBehaviour
 {
-    [SerializeField] GameObject applicationPageText;
+    [SerializeField] GameObject linePrefab;
+
+    [SerializeField] GameObject applicationPage;
     [SerializeField] Button prevPageButton, nextPageButton, closeButton, submitButton, deleteButton;
     [SerializeField] Toggle creditCardToggle;
     [SerializeField] List<Toggle> creditCardSubToggles;
@@ -14,20 +16,19 @@ public class Classifier2DManager : MonoBehaviour
     [SerializeField] List<Toggle> mortgageSubToggles;
 
     ApplicationObject app;
-    TextMeshProUGUI pageTMP;
     int pageIndex = 0;
 
     // Start is called before the first frame update
     void Start()
     {
+        // TODO: pass in applicationObject
         app = gameObject.AddComponent<ApplicationObject>();
-        app.pages.Add(new Page("credit card app"));
-        app.pages.Add(new Page("blank page"));
-        app.pages.Add(new Page("zzz\n\n\n\n\n\n\n\ncredit score: 1000"));
-        app.pages.Add(new Page("driver's license"));
+        app.pages.Add(new Page(new List<string>{"credit card app"}));
+        app.pages.Add(new Page(new List<string> {"blank page"}));
+        app.pages.Add(new Page(new List<string> {"zzz", "", "", "", "", "", "", "credit score: 500"}));
+        app.pages.Add(new Page(new List<string> {"driver's license"}));
 
-        pageTMP = applicationPageText.GetComponent<TextMeshProUGUI>();
-        pageTMP.text = app.pages[pageIndex].text;
+        renderPage(app.pages[0]);
 
         prevPageButton.onClick.AddListener(TaskOnPrevPageButtonClicked);
         nextPageButton.onClick.AddListener(TaskOnNextPageButtonClicked);
@@ -65,7 +66,7 @@ public class Classifier2DManager : MonoBehaviour
         if (pageIndex > 0)
         {
             pageIndex--;
-            pageTMP.text = app.pages[pageIndex].text;
+            renderPage(app.pages[pageIndex]);
         }
     }
 
@@ -74,7 +75,7 @@ public class Classifier2DManager : MonoBehaviour
         if (pageIndex < app.pages.Count - 1)
         {
             pageIndex++;
-            pageTMP.text = app.pages[pageIndex].text;
+            renderPage(app.pages[pageIndex]);
         }
     }
 
@@ -138,6 +139,21 @@ public class Classifier2DManager : MonoBehaviour
     }
 
     // HELPERS
+
+    void renderPage(Page page)
+    {
+        foreach (Transform child in applicationPage.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        foreach (string line in page.lines)
+        {
+            GameObject pageLine = Instantiate(linePrefab);
+            pageLine.transform.SetParent(applicationPage.transform, false);
+            pageLine.transform.Find("Canvas/Text").gameObject.GetComponent<TextMeshProUGUI>().text = line;
+        }
+    }
 
     void UntoggleCreditCard()
     {
