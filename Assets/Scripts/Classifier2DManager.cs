@@ -10,10 +10,7 @@ public class Classifier2DManager : MonoBehaviour
 
     [SerializeField] GameObject applicationPage;
     [SerializeField] Button prevPageButton, nextPageButton, closeButton, submitButton, deleteButton;
-    [SerializeField] Toggle creditCardToggle;
-    [SerializeField] List<Toggle> creditCardSubToggles;
-    [SerializeField] Toggle mortgageToggle;
-    [SerializeField] List<Toggle> mortgageSubToggles;
+    [SerializeField] GameObject applicationTypeStep;
 
     ApplicationObject app;
     int pageIndex = 0;
@@ -35,24 +32,6 @@ public class Classifier2DManager : MonoBehaviour
         closeButton.onClick.AddListener(TaskOnCloseButtonClicked);
         submitButton.onClick.AddListener(TaskOnSubmitButtonClicked);
         deleteButton.onClick.AddListener(TaskOnDeleteButtonClicked);
-
-        creditCardToggle.onValueChanged.AddListener(TaskOnCreditCardToggleChanged);
-        for (int i=0; i<creditCardSubToggles.Count; i++)
-        {
-            creditCardSubToggles[i].onValueChanged.AddListener((value) =>
-            {
-                TaskOnCreditCardSubToggleChanged(value, i);
-            });
-        }
-
-        mortgageToggle.onValueChanged.AddListener(TaskOnMortgageToggleChanged);
-        for (int i = 0; i < mortgageSubToggles.Count; i++)
-        {
-            mortgageSubToggles[i].onValueChanged.AddListener((value) =>
-            {
-                TaskOnMortgageSubToggleChanged(value, i);
-            });
-        }
     }
 
     // Update is called once per frame
@@ -94,93 +73,32 @@ public class Classifier2DManager : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    void TaskOnCreditCardToggleChanged(bool value)
+    public void SelectApplication(GameObject applicationDraggable)
     {
-        if (value)
+        if (applicationDraggable.transform.parent.gameObject.name == "ApplicationTypeStep")
         {
-            UntoggleMortgage();
-        } else
-        {
-            UntoggleCreditCard();
-        }
-        UpdateSubmitButton();
-    }
+            submitButton.gameObject.SetActive(true);
+            applicationTypeStep.SetActive(false);
 
-    void TaskOnCreditCardSubToggleChanged(bool value, int index)
-    {
-        if (value)
-        {
-            creditCardToggle.isOn = true;
-            UntoggleMortgage();
         }
-        UpdateSubmitButton();
-    }
-
-    void TaskOnMortgageToggleChanged(bool value)
-    {
-        if (value)
-        {
-            UntoggleCreditCard();
-        } else
-        {
-            UntoggleMortgage();
-        }
-        UpdateSubmitButton();
-    }
-
-    void TaskOnMortgageSubToggleChanged(bool value, int index)
-    {
-        if (value)
-        {
-            mortgageToggle.isOn = true;
-            UntoggleCreditCard();
-        }
-        UpdateSubmitButton();
     }
 
     // HELPERS
 
     void renderPage(Page page)
     {
-        foreach (Transform child in applicationPage.transform)
-        {
-            Destroy(child.gameObject);
-        }
 
-        foreach (string line in page.lines)
-        {
-            GameObject pageLine = Instantiate(linePrefab);
-            pageLine.transform.SetParent(applicationPage.transform, false);
-            pageLine.transform.Find("Canvas/Text").gameObject.GetComponent<TextMeshProUGUI>().text = line;
-        }
     }
 
-    void UntoggleCreditCard()
-    {
-        creditCardToggle.isOn = false;
-        foreach (Toggle toggle in creditCardSubToggles)
-        {
-            toggle.isOn = false;
-        }
-    }
-
-    void UntoggleMortgage()
-    {
-        mortgageToggle.isOn = false;
-        foreach (Toggle toggle in mortgageSubToggles)
-        {
-            toggle.isOn = false;
-        }
-    }
 
     bool IsValidCreditCardApp()
     {
-        return creditCardToggle.isOn && creditCardSubToggles.TrueForAll((toggle) => toggle.isOn);
+        return true;// creditCardToggle.isOn && creditCardSubToggles.TrueForAll((toggle) => toggle.isOn);
     }
 
     bool IsValidMortgageApp()
     {
-        return mortgageToggle.isOn && mortgageSubToggles.TrueForAll((toggle) => toggle.isOn);
+        return true;// mortgageToggle.isOn && mortgageSubToggles.TrueForAll((toggle) => toggle.isOn);
     }
 
     bool IsValidApp()
