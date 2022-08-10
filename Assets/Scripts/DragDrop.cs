@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
@@ -24,8 +25,11 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        canvasGroup.blocksRaycasts = false;
-        canvasGroup.alpha = 0.8f;
+        if (gameObject.GetComponent<Button>().interactable)
+        {
+            canvasGroup.blocksRaycasts = false;
+            canvasGroup.alpha = 0.8f;
+        }
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -37,6 +41,9 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
     public void OnDrag(PointerEventData eventData)
     {
-        rectTransform.anchoredPosition += eventData.delta;
+        if (gameObject.GetComponent<Button>().interactable)
+        {
+            rectTransform.anchoredPosition += eventData.delta;
+        }
     }
 }
