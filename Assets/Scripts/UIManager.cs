@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI cashAmount;
     [SerializeField] TextMeshProUGUI timeLeft;
     [SerializeField] ProgressBar clock;
+    [SerializeField] GameObject mainUI;
 
     public void setCashAmount(float cash)
     {
@@ -20,6 +21,8 @@ public class UIManager : MonoBehaviour
         float timeElapsed = BalanceSheet.timePerLevel - time;
         float multiplier = 480f / BalanceSheet.timePerLevel;
         float adjustedTimeElapsed = multiplier * timeElapsed + 540f;
+        float timeElapsedPercentage = timeElapsed / BalanceSheet.timePerLevel;
+        clock.currentPercent = timeElapsedPercentage * 100;
 
         if (adjustedTimeElapsed > 720)
         {
@@ -43,4 +46,8 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void turnOnMainUI()
+    {
+        mainUI.SetActive(true);
+    }
 }
