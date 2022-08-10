@@ -6,11 +6,11 @@ using TMPro;
 
 public class Classifier2DManager : MonoBehaviour
 {
-    [SerializeField] GameObject applicationPrefab, licensePrefab;
+    [SerializeField] GameObject spongeCCApp, spongeDL, spongeStub;
     [SerializeField] GameObject applicationViewer, currPage;
     [SerializeField] Button prevPageButton, nextPageButton, closeButton, submitButton, deleteButton;
     [SerializeField] GameObject applicationTypeStep, creditCardStep, mortgageStep;
-    [SerializeField] GameObject ccDriversLicenseDraggable, ccCreditReportDraggable, mDriversLicenseDraggable, mTaxReturnDraggable;
+    [SerializeField] GameObject ccDriversLicenseDraggable, ccPaystubDraggable, mDriversLicenseDraggable, mTaxReturnDraggable;
 
     ApplicationObject.ApplicationId appId;
     int pageIndex = 0;
@@ -91,18 +91,6 @@ public class Classifier2DManager : MonoBehaviour
 
     // HELPERS
 
-    GameObject SetApplicationPage(string name, string address, string ssn, string income)
-    {
-        GameObject appPage = Instantiate(applicationPrefab, applicationViewer.transform.position, Quaternion.identity);
-
-        appPage.transform.Find("Field/Textbox/FieldText").GetComponent<TextMeshProUGUI>().text = name;
-        appPage.transform.Find("Field (1)/Textbox/FieldText").GetComponent<TextMeshProUGUI>().text = address;
-        appPage.transform.Find("Field (2)/Textbox/FieldText").GetComponent<TextMeshProUGUI>().text = ssn;
-        appPage.transform.Find("Field (3)/Textbox/FieldText").GetComponent<TextMeshProUGUI>().text = income;
-
-        return appPage;
-    }
-
     void renderPage(ApplicationObject.ApplicationId appId, int pageIndex)
     {
         Destroy(currPage);
@@ -113,15 +101,15 @@ public class Classifier2DManager : MonoBehaviour
                 switch(pageIndex)
                 {
                     case 0:
-                        currPage = SetApplicationPage("Sponge", "a", "b", "c");
+                        currPage = Instantiate(spongeCCApp, applicationViewer.transform.position, Quaternion.identity);
                         currPage.transform.SetParent(applicationViewer.transform, true);
                         break;
                     case 1:
-                        currPage = Instantiate(licensePrefab, applicationViewer.transform.position, Quaternion.identity);
+                        currPage = Instantiate(spongeDL, applicationViewer.transform.position, Quaternion.identity);
                         currPage.transform.SetParent(applicationViewer.transform, true);
                         break;
                     case 2:
-                        currPage = SetApplicationPage("zzz", "zzz", "zzz", "zzz");
+                        currPage = Instantiate(spongeStub, applicationViewer.transform.position, Quaternion.identity);
                         currPage.transform.SetParent(applicationViewer.transform, true);
                         break;
                 }
@@ -140,7 +128,7 @@ public class Classifier2DManager : MonoBehaviour
 
     bool IsValidCreditCardApp()
     {
-        return creditCardStep.activeSelf && !ccDriversLicenseDraggable.GetComponent<Button>().interactable && !ccCreditReportDraggable.GetComponent<Button>().interactable;
+        return creditCardStep.activeSelf && !ccDriversLicenseDraggable.GetComponent<Button>().interactable && !ccPaystubDraggable.GetComponent<Button>().interactable;
     }
 
     bool IsValidMortgageApp()
