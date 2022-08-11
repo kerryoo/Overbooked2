@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Document : MonoBehaviour
+public class DocumentFile : MonoBehaviour
 {
     public int mortgageCount = 2;
     public int creditCount = 1;
