@@ -5,9 +5,11 @@ using UnityEngine;
 public class Interactor : MonoBehaviour
 {
     [SerializeField] private Transform playerPivot;
-    private readonly HashSet<Interactable> _interactables = new HashSet<Interactable>();
-    public Interactable CurrentInteractable { get; private set; }
+    private readonly HashSet<Highlightable> _highlightables = new HashSet<Highlightable>();
+    public Highlightable CurrentHighlightable { get; private set; }
     [SerializeField] private int _numColliders;
+    [SerializeField] public Transform holdSpot;
+    public IPickable itemholding;
 
     private void Awake()
     {
@@ -15,53 +17,73 @@ public class Interactor : MonoBehaviour
     }
 
     private void Update()
-    {   
-        Interactable closest = TryGetClosestInteractable();
-        if (closest != null && Input.GetKeyDown(KeyCode.Space))
+    {
+        Debug.Log(itemholding);
+        Highlightable closest = TryGetClosestInteractable();
+        if (closest != CurrentHighlightable)
         {
-            closest.Interact(this);
-        }
-        if (closest == CurrentInteractable) return;
-        else
-        {
-            CurrentInteractable?.ToggleHighlight(false);
-            CurrentInteractable = closest;
+            CurrentHighlightable?.ToggleHighlight(false);
+            CurrentHighlightable = closest;
             closest?.ToggleHighlight(true);
+        }
+        if ((itemholding != null) && Input.GetKeyDown(KeyCode.Space))
+        {
+            itemholding.Drop(this);
+            itemholding = null;
+            return;
+        }
+        if (closest != null)
+        {
+            if (closest is IInteractable && Input.GetKeyDown(KeyCode.LeftControl))
+            {
+                IInteractable tmp = (IInteractable)closest;
+                tmp.Interact(this);
+            }
 
+            if (closest is IPickable && Input.GetKeyDown(KeyCode.Space))
+            {
+                IPickable tmp = (IPickable)closest;
+                tmp.Grab(this);
+                itemholding = tmp;
+                CurrentHighlightable = null;
+                _highlightables.Remove(closest);
+                _numColliders -= 1;
+                closest?.ToggleHighlight(false);
+            }
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        Interactable interactable = other.GetComponent<Interactable>();
-        if (!interactable) return;
+        Highlightable highlightable = other.GetComponent<Highlightable>();
+        if (!highlightable) return;
 
-        _interactables.Add(interactable);
+        _highlightables.Add(highlightable);
         _numColliders += 1;
     }
 
     private void OnTriggerExit(Collider other)
     {
-        Interactable interactable = other.GetComponent<Interactable>();
-        if (!interactable) return;
+        Highlightable highlightable = other.GetComponent<Highlightable>();
+        if (!highlightable) return;
 
-        _interactables.Remove(interactable);
+        _highlightables.Remove(highlightable);
         _numColliders -= 1;
 
     }
 
 
 
-    private Interactable TryGetClosestInteractable()
+    private Highlightable TryGetClosestInteractable()
     {
         var minDistance = float.MaxValue;
-        Interactable closest = null;
-        foreach (var interactable in _interactables)
+        Highlightable closest = null;
+        foreach (var highlightable in _highlightables)
         {
-            var distance = Vector3.Distance(playerPivot.position, interactable.gameObject.transform.position);
+            var distance = Vector3.Distance(playerPivot.position, highlightable.gameObject.transform.position);
             if (distance > minDistance) continue;
             minDistance = distance;
-            closest = interactable;
+            closest = highlightable;
         }
         return closest;
     }

@@ -36,7 +36,7 @@ public class Character : MonoBehaviour
 
     }
 
-    private void grab()
+    public void grab()
     {
         isGrabbing = !isGrabbing;
         animator.SetBool("isGrabbing", isGrabbing);
