@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 6784654056583519172}
   - component: {fileID: -7053279857482510381}
   - component: {fileID: -3862239946203934977}
-  - component: {fileID: -5448196205216754950}
+  - component: {fileID: 6416681174635906419}
   m_Layer: 0
   m_Name: Whocares 1
   m_TagString: Untagged
@@ -148,7 +148,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &-5448196205216754950
+--- !u!114 &6416681174635906419
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -157,14 +157,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 4586776592110392105}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc55b670c0f3f4853b65f309263498b4, type: 3}
+  m_Script: {fileID: 11500000, guid: e29e0e74bf4b24f2dbdf4305be0a5d14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mortgageCount: 0
-  creditCount: 0
-  loanCount: 0
-  invalidCount: 0
-  dunnoCount: 0
+  color: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  mortgageCount: 2
+  creditCount: 1
+  loanCount: 1
+  invalidCount: 1
+  dunnoCount: 1
   doesntCount: 1
 --- !u!1 &6812197816255635538
 GameObject:

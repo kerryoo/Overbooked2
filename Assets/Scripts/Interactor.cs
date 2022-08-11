@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
 public class Interactor : MonoBehaviour
 {
     [SerializeField] private Transform playerPivot;
@@ -18,7 +19,6 @@ public class Interactor : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(itemholding);
         Highlightable closest = TryGetClosestInteractable();
         if (closest != CurrentHighlightable)
         {

@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 177184677797103860}
   - component: {fileID: -6095636270460995520}
   - component: {fileID: -2437841153015122449}
-  - component: {fileID: -8954283066189287240}
+  - component: {fileID: 2371821897414757544}
   m_Layer: 0
   m_Name: Loan 1
   m_TagString: Untagged
@@ -148,7 +148,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &-8954283066189287240
+--- !u!114 &2371821897414757544
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -157,15 +157,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 3069131125458808816}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc55b670c0f3f4853b65f309263498b4, type: 3}
+  m_Script: {fileID: 11500000, guid: e29e0e74bf4b24f2dbdf4305be0a5d14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mortgageCount: 0
-  creditCount: 0
+  color: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  mortgageCount: 2
+  creditCount: 1
   loanCount: 1
-  invalidCount: 0
-  dunnoCount: 0
-  doesntCount: 0
+  invalidCount: 1
+  dunnoCount: 1
+  doesntCount: 1
 --- !u!1 &3511967944260436909
 GameObject:
   m_ObjectHideFlags: 0
