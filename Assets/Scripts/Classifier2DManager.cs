@@ -6,22 +6,20 @@ using TMPro;
 
 public class Classifier2DManager : MonoBehaviour
 {
-    [SerializeField] GameObject spongeCCApp, spongeDL, spongeStub;
+    [SerializeField] ApplicationObject.ApplicationId appId;
+    [SerializeField] GameObject blankImage, spongeCCApp, spongeDL, spongeStub, krabCCApp, krabbyDL, krabStub, krabFlyer, krabPatty, krabMenu;
     [SerializeField] GameObject applicationViewer, currPage;
     [SerializeField] Button prevPageButton, nextPageButton, closeButton, submitButton, deleteButton;
     [SerializeField] GameObject applicationTypeStep, creditCardStep, mortgageStep;
     [SerializeField] GameObject ccDriversLicenseDraggable, ccPaystubDraggable, mDriversLicenseDraggable, mTaxReturnDraggable;
+    [SerializeField] TextMeshProUGUI pageCounter;
 
-    ApplicationObject.ApplicationId appId;
     int pageIndex = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        // TODO: pass in applicationObject
-        appId = ApplicationObject.ApplicationId.Spongebob;
-
-        renderPage(appId, pageIndex);
+        RenderPage(appId, pageIndex);
 
         prevPageButton.onClick.AddListener(TaskOnPrevPageButtonClicked);
         nextPageButton.onClick.AddListener(TaskOnNextPageButtonClicked);
@@ -30,18 +28,12 @@ public class Classifier2DManager : MonoBehaviour
         deleteButton.onClick.AddListener(TaskOnDeleteButtonClicked);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     void TaskOnPrevPageButtonClicked()
     {
         if (pageIndex > 0)
         {
             pageIndex--;
-            renderPage(appId, pageIndex);
+            RenderPage(appId, pageIndex);
         }
     }
 
@@ -50,7 +42,7 @@ public class Classifier2DManager : MonoBehaviour
         if (pageIndex < ApplicationObject.Length(appId) - 1)
         {
             pageIndex++;
-            renderPage(appId, pageIndex);
+            RenderPage(appId, pageIndex);
         }
     }
 
@@ -91,9 +83,11 @@ public class Classifier2DManager : MonoBehaviour
 
     // HELPERS
 
-    void renderPage(ApplicationObject.ApplicationId appId, int pageIndex)
+    void RenderPage(ApplicationObject.ApplicationId appId, int pageIndex)
     {
         Destroy(currPage);
+
+        GameObject newPage = blankImage;
 
         switch(appId)
         {
@@ -101,30 +95,58 @@ public class Classifier2DManager : MonoBehaviour
                 switch(pageIndex)
                 {
                     case 0:
-                        currPage = Instantiate(spongeCCApp, applicationViewer.transform.position, Quaternion.identity);
-                        currPage.transform.SetParent(applicationViewer.transform, true);
+                        newPage = spongeCCApp;
                         break;
                     case 1:
-                        currPage = Instantiate(spongeDL, applicationViewer.transform.position, Quaternion.identity);
-                        currPage.transform.SetParent(applicationViewer.transform, true);
+                        newPage = spongeStub;
                         break;
                     case 2:
-                        currPage = Instantiate(spongeStub, applicationViewer.transform.position, Quaternion.identity);
-                        currPage.transform.SetParent(applicationViewer.transform, true);
+                        newPage = spongeDL;
                         break;
                 }
+
+                pageCounter.text = $"{pageIndex+1}/3";
+
                 break;
             case ApplicationObject.ApplicationId.Sandy:
                 break;
             case ApplicationObject.ApplicationId.Patrick:
                 break;
             case ApplicationObject.ApplicationId.MrKrabs:
+                switch (pageIndex)
+                {
+                    case 0:
+                        newPage = krabCCApp;
+                        break;
+                    case 1:
+                    case 8:
+                        newPage = krabFlyer;
+                        break;
+                    case 3:
+                        newPage = krabStub;
+                        break;
+                    case 5:
+                    case 7:
+                        newPage = krabMenu;
+                        break;
+                    case 6:
+                        newPage = spongeDL;
+                        break;
+                    case 9:
+                        newPage = krabbyDL;
+                        break;
+                    default:
+                        newPage = blankImage;
+                        break;
+                }
+
+                pageCounter.text = $"{pageIndex+1}/???";
                 break;
         }
 
-        
+        currPage = Instantiate(newPage, applicationViewer.transform.position, Quaternion.identity);
+        currPage.transform.SetParent(applicationViewer.transform, true);
     }
-
 
     bool IsValidCreditCardApp()
     {

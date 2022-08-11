@@ -47,7 +47,7 @@ public class ApplicationObject : MonoBehaviour
             case ApplicationId.Patrick:
                 return 2;
             case ApplicationId.MrKrabs:
-                return 6;
+                return 15;
             default:
                 return 0;
         }

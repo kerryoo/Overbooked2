@@ -35,8 +35,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.000011444}
-  m_SizeDelta: {x: 380, y: 500}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 186.0039, y: 151.5989}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &835167601825909621
 CanvasRenderer:
@@ -53,7 +53,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1375155343764631418}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
   m_Name: 
@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 74f55ca6dd5f24ef8911e22c7a6cb9dd, type: 3}
+  m_Texture: {fileID: 2800000, guid: a6706f82caf364843a60f94b4d7b5620, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 5595907872963065493}
   - component: {fileID: 2702313623282997760}
   m_Layer: 5
-  m_Name: Image
+  m_Name: patty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
