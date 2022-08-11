@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraControl : MonoBehaviour
 {
+    [SerializeField] Transform trickTrans;
     [SerializeField] Transform initialTrans;
     [SerializeField] Transform characterSelectTrans;
     [SerializeField] Transform mainTrans;
@@ -11,6 +13,12 @@ public class CameraControl : MonoBehaviour
     private Quaternion targetRotation;
 
     private void Start()
+    {
+        targetPosition = trickTrans.position;
+        targetRotation = trickTrans.rotation;
+    }
+
+    public void goToMenuAngle()
     {
         targetPosition = initialTrans.position;
         targetRotation = initialTrans.rotation;

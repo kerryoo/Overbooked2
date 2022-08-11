@@ -13,7 +13,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] Transform dropOffLocation;
     [SerializeField] Transform leaveLocation;
 
+    [SerializeField] GameObject mainMenu;
+    [SerializeField] GameObject explosions;
+    [SerializeField] GameObject terribleUI;
+    [SerializeField] CameraControl cameraControl;
+
     private float cash;
+    private bool started = false;
 
     // Update is called once per frame
     void Update()
@@ -24,13 +30,21 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P)) {
             cash += 50;
         }
+
+        if (Input.GetKeyDown(KeyCode.O) && !started)
+        {
+            explosions.SetActive(true);
+            mainMenu.SetActive(true);
+            Destroy(terribleUI);
+            cameraControl.goToMenuAngle();
+            started = true;
+        }
     }
 
     public void onGameStart()
     {
         uiManager.turnOnMainUI();
         gameTimer.setTimer(BalanceSheet.timePerLevel);
-
         
     }
 
@@ -39,5 +53,9 @@ public class GameManager : MonoBehaviour
         GameObject van = Instantiate(deliveryVan, deliverySpawnLocation.position, deliverySpawnLocation.rotation);
         DeliveryVan vanScript = van.GetComponent<DeliveryVan>();
         vanScript.setFields(dropOffLocation, leaveLocation, buyableItems[id]);
+    }
+    public void addCash(float amount)
+    {
+        cash += amount;
     }
 }
