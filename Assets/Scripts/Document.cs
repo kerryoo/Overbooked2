@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class Document : Highlightable, IPickable
 {
+    public int mortgageCount = 2;
+    public int creditCount = 1;
+    public int loanCount = 1;
+    public int invalidCount = 1;
+    public int dunnoCount = 1;
+    public int doesntCount = 1;
+
     private Rigidbody _rigidbody;
     private Collider _collider;
     private MeshRenderer _meshRenderer;
@@ -40,16 +47,5 @@ public class Document : Highlightable, IPickable
         // re-enabling when picked up.
         _rigidbody.isKinematic = true;
         _collider.enabled = false;
-
     }
-
-    //public void Interact(Interactor interactor)
-    //{
-    //    if (interactor.itemholding) { }
-    //    Debug.Log("tring");
-    //    this.transform.position = interactor.holdSpot.position;
-    //    this.transform.parent = interactor.transform;
-    //}
-
-
 }
