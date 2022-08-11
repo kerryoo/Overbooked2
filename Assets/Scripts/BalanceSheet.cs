@@ -11,6 +11,7 @@ public class BalanceSheet : MonoBehaviour
     public static float characterInterpolation = 10;
     public static float sprintCooldown = 1f;
 
-    public static float timePerLevel = 80f;
-    public static float pipeDistanceThreshold = 0.15f;
+    public static float timePerLevel = 480f;
+    public static float pipeDistanceThreshold = 0.2f;
+    public static float timeForDocument = 10f;
 }

@@ -5,5 +5,5 @@ using UnityEngine;
 public interface IPipe
 {
     Transform[] entryPoints { get; set; }
-    void onPipeEnter(Transform entryPoint);
+    void onPipeEnter(Transform entryPoint, GameObject objectToSpawn);
 }
