@@ -6,6 +6,7 @@ public class Spawner : MonoBehaviour
 {
     [SerializeField] Transform exitPoint;
     [SerializeField] GameObject muzzleFlashFX;
+    [SerializeField] GameObject documents;
 
     // Update is called once per frame
     void Update()
@@ -29,18 +30,19 @@ public class Spawner : MonoBehaviour
                 {
                     if (Vector3.Distance(exitPoint.position, collidedPipe.entryPoints[j].position) < BalanceSheet.pipeDistanceThreshold)
                     {
-                        collidedPipe.onPipeEnter(collidedPipe.entryPoints[j]);
+                        collidedPipe.onPipeEnter(collidedPipe.entryPoints[j], documents);
                         passedToPipe = true;
                         break;
                     }
                 }
-
             }
 
         }
         if (!passedToPipe)
         {
             Instantiate(muzzleFlashFX, exitPoint.position, exitPoint.rotation);
+            GameObject docs = Instantiate(documents, exitPoint.position, exitPoint.rotation);
+            docs.GetComponent<Rigidbody>().AddForce(docs.transform.forward * 10, ForceMode.Impulse);
         }
     }
 }

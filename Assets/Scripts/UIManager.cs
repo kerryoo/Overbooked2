@@ -10,6 +10,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI timeLeft;
     [SerializeField] ProgressBar clock;
     [SerializeField] GameObject mainUI;
+    [SerializeField] GameObject marketPlaceUI;
+
+    private bool isMarketPlaceOpen = false;
 
     public void setCashAmount(float cash)
     {
@@ -49,5 +52,11 @@ public class UIManager : MonoBehaviour
     public void turnOnMainUI()
     {
         mainUI.SetActive(true);
+    }
+
+    public void toggleMarketPlace()
+    {
+        isMarketPlaceOpen = !isMarketPlaceOpen;
+        marketPlaceUI.SetActive(isMarketPlaceOpen);
     }
 }

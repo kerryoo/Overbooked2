@@ -7,6 +7,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] Timer gameTimer;
     [SerializeField] UIManager uiManager;
 
+    [SerializeField] GameObject[] buyableItems;
+    [SerializeField] GameObject deliveryVan;
+    [SerializeField] Transform deliverySpawnLocation;
+    [SerializeField] Transform dropOffLocation;
+    [SerializeField] Transform leaveLocation;
+
     private float cash;
 
     // Update is called once per frame
@@ -24,6 +30,14 @@ public class GameManager : MonoBehaviour
     {
         uiManager.turnOnMainUI();
         gameTimer.setTimer(BalanceSheet.timePerLevel);
+
         
+    }
+
+    public void onBuy(int id)
+    {
+        GameObject van = Instantiate(deliveryVan, deliverySpawnLocation.position, deliverySpawnLocation.rotation);
+        DeliveryVan vanScript = van.GetComponent<DeliveryVan>();
+        vanScript.setFields(dropOffLocation, leaveLocation, buyableItems[id]);
     }
 }

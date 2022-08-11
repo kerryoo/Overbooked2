@@ -13,7 +13,7 @@ public class Pipe : MonoBehaviour, IPipe
 
     [SerializeField] GameObject muzzleFlashFX;
 
-    public void onPipeEnter(Transform entryPoint)
+    public void onPipeEnter(Transform entryPoint, GameObject objectToSpawn)
     {
         bool passedToPipe = false;
         if (entryPoint == entryPoints[0])
@@ -28,18 +28,19 @@ public class Pipe : MonoBehaviour, IPipe
                     {
                         if (Vector3.Distance(entryPoints[1].position, collidedPipe.entryPoints[j].position) < BalanceSheet.pipeDistanceThreshold)
                         {
-                            collidedPipe.onPipeEnter(collidedPipe.entryPoints[j]);
+                            collidedPipe.onPipeEnter(collidedPipe.entryPoints[j], objectToSpawn);
                             passedToPipe = true;
                             break;
                         }
                     }
 
                 }
-
             }
             if (!passedToPipe)
             {
                 Instantiate(muzzleFlashFX, entryPoints[1].position, entryPoints[1].rotation);
+                GameObject docs = Instantiate(objectToSpawn, entryPoints[1].position, entryPoints[1].rotation);
+                docs.GetComponent<Rigidbody>().AddForce(docs.transform.forward * 10, ForceMode.Impulse);
             }
 
         }
@@ -55,7 +56,7 @@ public class Pipe : MonoBehaviour, IPipe
                     {
                         if (Vector3.Distance(entryPoints[0].position, collidedPipe.entryPoints[j].position) < BalanceSheet.pipeDistanceThreshold)
                         {
-                            collidedPipe.onPipeEnter(collidedPipe.entryPoints[j]);
+                            collidedPipe.onPipeEnter(collidedPipe.entryPoints[j], objectToSpawn);
                             passedToPipe = true;
                             break;
                         }
@@ -67,6 +68,8 @@ public class Pipe : MonoBehaviour, IPipe
             if (!passedToPipe)
             {
                 Instantiate(muzzleFlashFX, entryPoints[0].position, entryPoints[0].rotation);
+                GameObject docs = Instantiate(objectToSpawn, entryPoints[0].position, entryPoints[0].rotation);
+                docs.GetComponent<Rigidbody>().AddForce(docs.transform.forward * 10, ForceMode.Impulse);
             }
 
         }
